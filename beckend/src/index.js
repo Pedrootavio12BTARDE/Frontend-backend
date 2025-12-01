@@ -53,6 +53,37 @@ database.query(insertCommand,[name,email,age,password], (error) =>{
 
  })
 
+// ROTA DO  LOGIN  DE  USUÁRIO 
+ app.post("/login",(request, response)=> {
+const { email,password} = request.body.user
+
+const selectCommand = "SELECT * FROM pedrootavio_02mc WHERE email = ?"
+
+database.query(selectCommand,[email], (error,user) => {
+    if(error){
+        console.log(error)
+        return  
+    }
+
+
+    console.log(user)
+    if (user.length === 0 || password !== user[0].password){
+
+        response.json({message:" Email ou senha incorretos!"})
+
+        return
+
+    }
+
+response.json({id: user[0].id, name: user[0].name})
+
+})
+
+
+ })
+
+
+
 
 app.listen(port, () =>{
 
